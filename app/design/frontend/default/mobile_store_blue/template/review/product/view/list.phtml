@@ -1,0 +1,57 @@
+<?php $_items = $this->getReviewsCollection()->getItems();?>
+<?php
+$toolbar = $this->getLayout()->createBlock('page/html_pager', 'product_review_list.toolbar')->setCollection($this->getReviewsCollection())->_toHtml();
+?>
+<?php if (count($_items)):?>
+<div class="reviews" id="customer-reviews">
+    <h3><?php echo $this->__('Customer Reviews') ?></h3>
+    <?php //echo $this->getChildHtml('toolbar'); ?>
+<?php
+echo $toolbar;
+?>
+   <dl>
+    <?php foreach ($_items as $_review):?>
+        <dt>
+            <span class="title-review"><?php echo $this->htmlEscape($_review->getTitle()) ?></span> <span class="author-review"><?php echo $this->__('Review by <span>%s</span>', $this->htmlEscape($_review->getNickname())) ?></span>
+            
+        </dt>
+        <dd>
+            <table class="data-table">
+                <col width="8%" />
+                <col />
+                <tbody>
+                    <?php foreach ($_review->getRatingVotes() as $_vote): ?>
+                    <tr>
+                        <th class="label"><?php echo $_vote->getRatingCode() ?></th>
+                        <td class="value">
+                            <div class="rating-box">
+                                <div class="rating" style="width:<?php echo $_vote->getPercent() ?>%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <?php
+            $style_review = '';
+            if(strlen($_review->getDetail()) > 500){
+            	$style_review = 'style="height:150px;overflow:auto;"';
+            }
+            ?>
+            <div class="wrapper-review">
+            	<div class="wrapper2-review">
+		            <div <?php echo $style_review;?> class="content-review">
+		            	<?php echo nl2br($this->htmlEscape($_review->getDetail())); ?>
+						<span class="date"><?php echo $this->__('(Posted on %s)', $this->formatDate($_review->getCreatedAt()), 'long') ?></span>
+		            </div>
+            	</div>
+            </div>
+        </dd>
+    <?php endforeach; ?>
+    </dl>
+    <?php //echo $this->getChildHtml('toolbar') ?>
+<?php
+echo $toolbar;
+?>
+</div>
+<?php endif;?>
