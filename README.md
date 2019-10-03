@@ -1,3 +1,5 @@
+
+
 ## Original Package Description
 
 This free Magento theme will make your online store stand out. Simple, user friendly and easily customizable it provides your customers with truly enjoyable shopping experience.
